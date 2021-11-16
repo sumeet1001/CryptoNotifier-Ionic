@@ -9,7 +9,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "live": "ionic cap run android -l --external --target=J8AAGF12S1436SA",
+    "build-apk": "ionic cap build android --prod"
   },
   "private": true,
   "dependencies": {
@@ -20,12 +22,18 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
+    "@capacitor/android": "3.2.0",
     "@capacitor/app": "1.0.2",
     "@capacitor/core": "3.1.2",
     "@capacitor/haptics": "1.0.2",
     "@capacitor/keyboard": "1.0.2",
+    "@capacitor/push-notifications": "^1.0.3",
     "@capacitor/status-bar": "1.0.2",
+    "@ionic-native/core": "^5.35.0",
+    "@ionic-native/firebase-authentication": "^5.35.0",
     "@ionic/angular": "^5.5.2",
+    "cordova-plugin-firebase-authentication": "^5.0.0",
+    "cordova-support-android-plugin": "^1.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

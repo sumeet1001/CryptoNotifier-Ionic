@@ -1,6 +1,9 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "com.kinu.cryptoNotifier",
 	"appName": "CN",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+  "server": {
+    "cleartext": true
+  }
 }

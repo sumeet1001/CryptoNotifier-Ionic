@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content>
+    <ion-row>
+      <ion-col size="10" offset="1">
+        <ion-item>
+          <ion-label position="stacked">Name</ion-label>
+          <ion-input [(ngModel)]="name"></ion-input>
+          <ion-button slot="end" class="ion-align-self-center" (click)="updateName()" color="success">
+            update
+          </ion-button>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label position="stacked">Mobile </ion-label>
+          <ion-input [value]="user.phoneNumber" disabled></ion-input>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Active Crypto</ion-label>
+        </ion-item>
+        <ng-container *ngFor="let item of user.subs">
+          <ion-chip *ngIf="item.active" color="success">
+            <ion-icon name="happy-outline" color="primary"></ion-icon>
+            <ion-label>{{item.crypto}}</ion-label>
+          </ion-chip>
+        </ng-container>
+
+        <ion-item lines="none">
+          <ion-label>Inactive Crypto</ion-label>
+        </ion-item>
+        <ng-container *ngFor="let item of user.subs">
+          <ion-chip *ngIf="!item.active" color="warning" outline="true">
+            <ion-icon name="sad-outline" color="warning"></ion-icon>
+            <ion-label>{{item.crypto}}</ion-label>
+          </ion-chip>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ion-content>

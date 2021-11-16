@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "594944376611",
+    "project_id": "crypto-notifier-67c67",
+    "storage_bucket": "crypto-notifier-67c67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594944376611:android:a7dfe0518e09481c015696",
+        "android_client_info": {
+          "package_name": "com.kinu.cryptoNotifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594944376611-v5g62jkdeuf9ujhk9fhocsssigdd17bi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinu.cryptoNotifier",
+            "certificate_hash": "34915c145019ff3b46716d116cbead38ca771a8d"
+          }
+        },
+        {
+          "client_id": "594944376611-fo3ighqqp6nld27h20ar98mheegv4ujf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDof4m7ISzDDjvOsZBiLDsF49L88JEfoeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594944376611-fo3ighqqp6nld27h20ar98mheegv4ujf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

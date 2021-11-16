@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title>allCryptoList</ion-title> -->
+    <ion-segment scrollable [value]="quotes && quotes[0]"  (ionChange)="segmentChanged($event)">
+      <ion-segment-button *ngFor="let item of quotes" [value]="item">
+        <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
+        <ion-label *ngIf="!loading">{{item | uppercase}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
+  <ion-list *ngIf="!loading">
+    <ng-container *ngFor="let crypto of cryptos">
+      <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list">
+        <ion-icon name="logo-bitcoin" slot="start"></ion-icon>
+        <ion-label>
+          <h3> <b>{{crypto.crypto | uppercase}}</b>
+            <ion-chip class="" color="success">
+              <ion-label>{{crypto.quoteMarket | uppercase}}</ion-label>
+            </ion-chip>
+            </h3>
+          <h3>Volume: {{crypto.volume}}</h3>
+        </ion-label>
+        <ion-label>
+          <h3 class="ion-text-end">
+            <b>{{crypto.last | currency: getCurrencyType(crypto.quoteMarket)}}</b>
+          </h3>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

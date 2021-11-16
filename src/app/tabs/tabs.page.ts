@@ -6,7 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-
-  constructor() {}
+  tabs = [];
+  constructor() {
+    this.tabs = [
+      {
+        name: 'Dashboard',
+        route: 'home',
+        icon: 'home'
+      },
+      {
+        name: 'Cryptos',
+        route: 'all-crypto-list',
+        icon: 'stats-chart-outline'
+      },
+      {
+        name: 'Profile',
+        route: 'profile',
+        icon: 'person-circle'
+      }
+    ];
+  }
 
 }
