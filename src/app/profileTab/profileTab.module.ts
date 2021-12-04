@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/common-module';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,8 @@ import {ProfileTabPageRoutingModule } from './profileTab-routing.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    ProfileTabPageRoutingModule
+    ProfileTabPageRoutingModule,
+    SharedModule
   ],
   declarations: [ProfileTabPage]
 })

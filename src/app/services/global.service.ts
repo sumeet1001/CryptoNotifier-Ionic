@@ -8,6 +8,7 @@ import { App } from '@capacitor/app';
 })
 export class GlobalService {
   public currentUserSubject: BehaviorSubject<any>;
+  subs: BehaviorSubject<any>;
   lastBack;
   buttonSub;
   constructor(
@@ -16,6 +17,7 @@ export class GlobalService {
     private platform: Platform
   ) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
+    this.subs = new BehaviorSubject<any>({});
   }
   public get currentUserValue() {
     return this.currentUserSubject.value;
@@ -37,14 +39,22 @@ export class GlobalService {
   }
   clearStorage() {
     this.currentUserSubject.next(null);
+    this.subs.next(null);
     localStorage.clear();
   }
-  updateUserSubs(data) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    user.userDetails.subs = data.subs;
-    user.firebaseToken = data.firebaseToken;
-    this.setUser(user);
+  setSubs(value) {
+    this.subs.next(null);
+    this.subs.next(value);
   }
+  public get getSubs() {
+    return this.subs.value;
+  }
+  // updateUserSubs(data) {
+  //   const user = JSON.parse(localStorage.getItem('user'));
+  //   user.userDetails.subs = data.subs;
+  //   user.firebaseToken = data.firebaseToken;
+  //   this.setUser(user);
+  // }
   async presentLoadingWithOptions(options?) {
     const loading = await this.loadingController.create({
       spinner: options.type || 'crescent',

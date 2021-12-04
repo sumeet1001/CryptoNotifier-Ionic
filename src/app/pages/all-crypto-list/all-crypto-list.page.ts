@@ -1,3 +1,4 @@
+import { GlobalService } from 'src/app/services/global.service';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { CryptoList } from 'src/app/interfaces/crypto-list.interface';
@@ -12,8 +13,10 @@ export class AllCryptoListPage implements OnInit {
   filteredData: [CryptoList];
   currentSection;
   loading: boolean;
+  currentSubs;
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private globalService: GlobalService
   ) {
     this.quotes = new Array(4);
   }
@@ -22,6 +25,8 @@ export class AllCryptoListPage implements OnInit {
 
   }
   ionViewWillEnter(){
+    this.currentSubs = this.globalService.getSubs;
+    console.log(this.currentSubs);
     this.getCryptoList();
   }
   getCryptoList() {
@@ -44,6 +49,7 @@ export class AllCryptoListPage implements OnInit {
     this.loading = false;
     // console.log(this.quotes)
   }
+
   segmentChanged(ev) {
     console.log(this.currentSection);
     this.currentSection = ev.target.value;
@@ -63,5 +69,32 @@ export class AllCryptoListPage implements OnInit {
         break;
     }
     return filter;
+  }
+  addSubscription(item: CryptoList) {
+    // this.globalService.presentLoadingWithOptions({msg: 'Adding Subscription'});
+    if (this.currentSubs[item.crypto]) {
+      this.globalService.showToast({msg: 'Already subscribed'});
+      return;
+    }
+    const currentCrypto = {
+      crypto: item.crypto,
+      min: 0,
+      max: 0,
+      active: false
+    };
+    const body = {
+      subs: {...this.currentSubs}
+    };
+    body.subs[item.crypto] = currentCrypto;
+    this.apiService.updateSubs(body).subscribe( res => {
+      // this.globalService.dismissLoader();
+      this.globalService.setSubs(body);
+      this.currentSubs = body.subs;
+      this.globalService.showToast({msg: 'Added successfully'});
+    }, err => {
+      // this.globalService.dismissLoader();
+    // this.globalService.showToast({msg: 'Something went wrong'});
+      console.log(err);
+    });
   }
 }

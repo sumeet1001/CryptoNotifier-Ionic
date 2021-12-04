@@ -16,15 +16,12 @@ export class ProfileTabPage implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.user = this.globalService.currentUserValue.userDetails;
+    this.user = this.globalService.currentUserValue;
     this.name = this.user.name;
-    console.log(this.user);
   }
   updateName() {
     const body = {
-      firebaseToken: this.user.firebaseToken,
-      name: this.name,
-      subs: this.user.subs
+      name: this.name
     };
     this.homeService.saveDetails(body);
   }

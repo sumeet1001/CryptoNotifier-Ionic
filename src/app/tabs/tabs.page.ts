@@ -10,9 +10,9 @@ export class TabsPage {
   constructor() {
     this.tabs = [
       {
-        name: 'Dashboard',
+        name: 'Alerts',
         route: 'home',
-        icon: 'home'
+        icon: 'notifications'
       },
       {
         name: 'Cryptos',

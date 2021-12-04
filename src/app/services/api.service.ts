@@ -14,4 +14,7 @@ export class ApiService {
   getCryptoList() {
     return this.http.get(`${environment.baseUrl}/crypto-list`);
   }
+  updateSubs(body) {
+    return this.http.put(`${environment.baseUrl}/update-subscription`, body);
+  }
 }

@@ -1,6 +1,5 @@
-<ion-header>
+<app-header [page]="'Cryptos'">
   <ion-toolbar>
-    <!-- <ion-title>allCryptoList</ion-title> -->
     <ion-segment scrollable [value]="quotes && quotes[0]"  (ionChange)="segmentChanged($event)">
       <ion-segment-button *ngFor="let item of quotes" [value]="item">
         <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
@@ -8,14 +7,24 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-</ion-header>
+</app-header>
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-segment scrollable [value]="quotes && quotes[0]"  (ionChange)="segmentChanged($event)">
+      <ion-segment-button *ngFor="let item of quotes" [value]="item">
+        <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
+        <ion-label *ngIf="!loading">{{item | uppercase}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header> -->
 
 <ion-content>
   <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
   <ion-list *ngIf="!loading">
     <ng-container *ngFor="let crypto of cryptos">
       <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list">
-        <ion-icon name="logo-bitcoin" slot="start"></ion-icon>
+        <ion-icon name="logo-bitcoin" slot="start" class="crypto-logo"></ion-icon>
         <ion-label>
           <h3> <b>{{crypto.crypto | uppercase}}</b>
             <ion-chip class="" color="success">
@@ -29,6 +38,10 @@
             <b>{{crypto.last | currency: getCurrencyType(crypto.quoteMarket)}}</b>
           </h3>
         </ion-label>
+        <ion-button fill="clear" class="alert-btn" (click)="addSubscription(crypto)">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <ion-badge color="success">+</ion-badge>
+        </ion-button>
       </ion-item>
     </ng-container>
   </ion-list>

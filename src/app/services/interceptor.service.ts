@@ -15,7 +15,6 @@ export class InterceptorService implements HttpInterceptor {
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const user = this.globalService.currentUserValue;
-    console.log(user)
     if (user && user.token) {
       request = request.clone({
         setHeaders: {
@@ -35,7 +34,7 @@ export class InterceptorService implements HttpInterceptor {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Error!',
-      message: `${error.error.message}`,
+      message: `${error.error.message && error.error.message.length? error.error.message : error.statusText}`,
       buttons: [{
           text: 'Okay'
         }

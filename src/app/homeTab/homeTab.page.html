@@ -1,15 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Dashboard
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header [page]="'Alerts'"></app-header>
 <!-- {
   "_id": "610fd15a05d6eb0015804b51",
   "crypto": "Doge",
@@ -18,14 +7,13 @@
   "active": false
 } -->
 <ion-content [fullscreen]="true">
-  <ion-row *ngFor="let item of cryptoList">
+  <ion-row *ngFor="let item of subs | keyvalue">
     <ion-col size="11" offset="0.5">
         <ion-card>
           <ion-card-header>
-            <!-- <ion-card-subtitle>{{item.crypto}}</ion-card-subtitle> -->
             <ion-item lines="none">
-              <ion-label>{{item.crypto}}</ion-label>
-              <ion-toggle [checked]="item.active" (ionChange)="updateObj($event, item._id, 'active')"></ion-toggle>
+              <ion-label>{{item.value['crypto'] | uppercase}}</ion-label>
+              <ion-toggle [checked]="item.value['active']" (ionChange)="updateObj($event, item.value['_id'], 'active')"></ion-toggle>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
@@ -33,13 +21,13 @@
               <ion-col size="6">
                 <ion-item>
                   <ion-label position="stacked">Min</ion-label>
-                  <ion-input type="number" [value]="item.min" (ionChange)="updateObj($event, item._id, 'min')"></ion-input>
+                  <ion-input type="number" [value]="item.value['min']" (ionChange)="updateObj($event, item.value['_id'], 'min')"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="6">
                 <ion-item>
                   <ion-label position="stacked">Max</ion-label>
-                  <ion-input type="number" [value]="item.max" (ionChange)="updateObj($event, item._id, 'max')"></ion-input>
+                  <ion-input type="number" [value]="item.value['max']" (ionChange)="updateObj($event, item.value['_id'], 'max')"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>

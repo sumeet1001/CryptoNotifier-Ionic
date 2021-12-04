@@ -16,7 +16,6 @@ export class HomeService {
   saveDetails(body) {
     this.globalService.presentLoadingWithOptions({msg: 'Updating'});
     this.updateUser(body).subscribe( res => {
-      this.globalService.updateUserSubs(body);
       this.globalService.dismissLoader();
     }, (error) => {
       console.log(error);
@@ -25,5 +24,9 @@ export class HomeService {
   }
   updateUser(body) {
     return this.http.post(`${environment.baseUrl}/update`, body);
+  }
+
+  getSubsList() {
+    return this.http.get(`${environment.baseUrl}/subs-list`);
   }
 }

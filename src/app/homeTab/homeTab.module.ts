@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/common-module';
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,8 @@ import { HomeTabPageRoutingModule } from './homeTab-routing.module';
     CommonModule,
     FormsModule,
     HomeTabPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [HomeTabPage],
   providers: [FirebaseAuthentication]

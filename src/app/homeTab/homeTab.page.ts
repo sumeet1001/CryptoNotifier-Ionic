@@ -13,7 +13,7 @@ import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ng
   styleUrls: ['homeTab.page.scss']
 })
 export class HomeTabPage implements OnInit {
-  cryptoList;
+  subs = {};
   user;
   testGroup: FormGroup;
   fcmToken: any;
@@ -25,14 +25,15 @@ export class HomeTabPage implements OnInit {
     private platform: Platform
   ) {
     this.user = globalService.currentUserValue;
-    this.cryptoList = this.user.userDetails.subs;
-    console.log(this.cryptoList);
+    // this.cryptoList = this.user.userDetails.subs;
+    // console.log(this.cryptoList);
     // firebaseAuthentication.verifyPhoneNumber('+918882023249', 30).then( res => {
 
     // });
 
   }
   ionViewWillEnter(){
+    console.log(this.globalService.getSubs);
     this.globalService.backButtonSub();
   }
   ionViewWillLeave(){
@@ -41,6 +42,11 @@ export class HomeTabPage implements OnInit {
   ngOnInit() {
     // console.log(this.testGroup)
     // change this for website
+    this.pushNotifications();
+    this.getSubsList();
+  }
+
+  pushNotifications() {
     if (this.platform.is('capacitor')) {
       PushNotifications.requestPermissions().then(result => {
         if (result.receive === 'granted') {
@@ -58,29 +64,39 @@ export class HomeTabPage implements OnInit {
       );
     }
   }
-  logout() {
-    this.globalService.clearStorage();
-    this.router.navigateByUrl('login');
+
+  getSubsList() {
+    if (this.globalService.getSubs.subs && Object.keys(this.globalService.getSubs.subs).length) {
+      this.subs = this.globalService.getSubs.subs;
+    } else {
+      this.homeService.getSubsList().subscribe( (res: any) => {
+        this.globalService.setSubs(res.subs || {});
+        console.log(res);
+        this.subs = res.subs;
+      }, err => {
+        console.log(err);
+      });
+    }
   }
 
-  updateObj(ev, id, field) {
-    this.cryptoList.forEach(item => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (item._id === id) {
-        if (ev.detail.value === 'on') {
-          item[field] = ev.detail.checked;
-        } else {
-          item[field] = parseFloat(ev.detail.value);
-        }
-      }
-   });
-  }
+  // updateObj(ev, id, field) {
+  //   this.cryptoList.forEach(item => {
+  //     // eslint-disable-next-line no-underscore-dangle
+  //     if (item._id === id) {
+  //       if (ev.detail.value === 'on') {
+  //         item[field] = ev.detail.checked;
+  //       } else {
+  //         item[field] = parseFloat(ev.detail.value);
+  //       }
+  //     }
+  //  });
+  // }
 
-  saveDetails() {
-    const body = {
-      firebaseToken: this.fcmToken,
-      subs: this.cryptoList
-    };
-    this.homeService.saveDetails(body);
-  }
+  // saveDetails() {
+  //   const body = {
+  //     firebaseToken: this.fcmToken,
+  //     subs: this.cryptoList
+  //   };
+  //   this.homeService.saveDetails(body);
+  // }
 }
