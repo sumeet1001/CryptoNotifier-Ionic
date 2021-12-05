@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">OTP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-row>
+  <ion-col size="12">
+    <ion-card>
+      <ion-card-subtitle class="ion-text-center">
+        Please enter otp sent on {{mobile}}
+      </ion-card-subtitle>
+      <ion-card-content>
+        <ng-otp-input class="ion-text-center"  (onInputChange)="onOtpChange($event)"  [config]="{length:6, allowNumbersOnly: true}"></ng-otp-input>
+        <ion-button class="otp-btn" (click)="submit()" expand="block" fill="solid" color="primary" [disabled]="otp && otp.length < 6">
+          {{btnText}}
+        </ion-button>
+        <ion-text color="dark" class="ion-text-center" (click)="gotoLogin()">
+          <h4>Maybe Later</h4>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
+</ion-content>

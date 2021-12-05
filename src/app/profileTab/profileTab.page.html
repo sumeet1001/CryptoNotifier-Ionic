@@ -18,20 +18,20 @@
         <ion-item lines="none">
           <ion-label>Active Crypto</ion-label>
         </ion-item>
-        <ng-container *ngFor="let item of user.subs">
-          <ion-chip *ngIf="item.active" color="success">
+        <ng-container *ngFor="let item of subs | keyvalue">
+          <ion-chip *ngIf="item.value['active']" color="success">
             <ion-icon name="happy-outline" color="primary"></ion-icon>
-            <ion-label>{{item.crypto}}</ion-label>
+            <ion-label>{{item.value['crypto']}}</ion-label>
           </ion-chip>
         </ng-container>
 
         <ion-item lines="none">
           <ion-label>Inactive Crypto</ion-label>
         </ion-item>
-        <ng-container *ngFor="let item of user.subs">
-          <ion-chip *ngIf="!item.active" color="warning" outline="true">
+        <ng-container *ngFor="let item of subs | keyvalue">
+          <ion-chip *ngIf="!item.value['active']" color="warning" outline="true">
             <ion-icon name="sad-outline" color="warning"></ion-icon>
-            <ion-label>{{item.crypto}}</ion-label>
+            <ion-label>{{item.value['crypto']}}</ion-label>
           </ion-chip>
         </ng-container>
       </ion-col>

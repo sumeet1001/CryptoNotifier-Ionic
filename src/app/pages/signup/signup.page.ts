@@ -68,11 +68,12 @@ export class SignupPage implements OnInit {
         firebaseToken: this.fcmToken
       });
       this.signupForm.disable();
-        this.signupService.signup(this.signupForm.value).subscribe(res => {
+        this.signupService.signup(this.signupForm.value).subscribe((res: any) => {
           this.signupForm.enable();
           this.signupForm.reset();
           this.globalService.dismissLoader();
-          this.router.navigate(['login']);
+          this.router.navigate(['otp', {mobile: res && res.userDetails && res.userDetails.phoneNumber, user: res.userDetails.userId}]);
+          // this.router.navigate(['login']);
         }, (err) => {
           console.log(err);
           this.globalService.dismissLoader();

@@ -70,6 +70,7 @@ export class GlobalService {
   async dismissLoader() {
     try {
       const loader = this.loadingController.getTop();
+      console.log('loader', loader);
       if (loader) {
         this.loadingController.dismiss();
       }

@@ -17,4 +17,7 @@ export class ApiService {
   updateSubs(body) {
     return this.http.put(`${environment.baseUrl}/update-subscription`, body);
   }
+  updateUserVerified(body) {
+    return this.http.put(`${environment.baseUrl}/update-verified`, body);
+  }
 }

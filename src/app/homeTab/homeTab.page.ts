@@ -5,7 +5,6 @@ import { GlobalService } from 'src/app/services/global.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PushNotifications, Token } from '@capacitor/push-notifications';
-import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 
 @Component({
   selector: 'app-home',
@@ -17,24 +16,19 @@ export class HomeTabPage implements OnInit {
   user;
   testGroup: FormGroup;
   fcmToken: any;
+  loading = true;
   constructor(
     private globalService: GlobalService,
     private router: Router,
     private homeService: HomeService,
-    private firebaseAuthentication: FirebaseAuthentication,
     private platform: Platform
   ) {
     this.user = globalService.currentUserValue;
-    // this.cryptoList = this.user.userDetails.subs;
-    // console.log(this.cryptoList);
-    // firebaseAuthentication.verifyPhoneNumber('+918882023249', 30).then( res => {
-
-    // });
-
   }
   ionViewWillEnter(){
     console.log(this.globalService.getSubs);
     this.globalService.backButtonSub();
+    this.getSubsList();
   }
   ionViewWillLeave(){
     this.globalService.bacButtonUnsub();
@@ -43,7 +37,6 @@ export class HomeTabPage implements OnInit {
     // console.log(this.testGroup)
     // change this for website
     this.pushNotifications();
-    this.getSubsList();
   }
 
   pushNotifications() {
@@ -66,19 +59,28 @@ export class HomeTabPage implements OnInit {
   }
 
   getSubsList() {
-    if (this.globalService.getSubs.subs && Object.keys(this.globalService.getSubs.subs).length) {
+    if (this.globalService.getSubs && this.globalService.getSubs.subs && Object.keys(this.globalService.getSubs.subs).length) {
       this.subs = this.globalService.getSubs.subs;
+      this.loading = false;
     } else {
       this.homeService.getSubsList().subscribe( (res: any) => {
         this.globalService.setSubs(res.subs || {});
+        for (const item of Object.keys(res.subs)) {
+          res.subs[item].expanded = false;
+        }
         console.log(res);
         this.subs = res.subs;
+        this.loading = false;
       }, err => {
+        this.loading = false;
         console.log(err);
       });
     }
   }
-
+  expand(item) {
+    item.expanded = !item.expanded;
+    console.log(item);
+  }
   // updateObj(ev, id, field) {
   //   this.cryptoList.forEach(item => {
   //     // eslint-disable-next-line no-underscore-dangle

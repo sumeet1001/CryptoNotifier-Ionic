@@ -22,7 +22,7 @@ export class AllCryptoListPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.loading = true;
   }
   ionViewWillEnter(){
     this.currentSubs = this.globalService.getSubs;
@@ -30,7 +30,6 @@ export class AllCryptoListPage implements OnInit {
     this.getCryptoList();
   }
   getCryptoList() {
-    this.loading = true;
     this.apiService.getCryptoList().subscribe((res: any) => {
       this.cryptos = res.markets;
       this.getUniqueQuotes(res.markets);
@@ -45,7 +44,7 @@ export class AllCryptoListPage implements OnInit {
       allQuote.push(item.quoteMarket);
     });
     this.quotes = [... new Set(allQuote)];
-    this.currentSection = this.quotes[0];
+    this.currentSection = this.quotes[1];
     this.loading = false;
     // console.log(this.quotes)
   }

@@ -34,6 +34,7 @@
     "@ionic/angular": "^5.5.2",
     "cordova-plugin-firebase-authentication": "^5.0.0",
     "cordova-support-android-plugin": "^1.0.2",
+    "ng-otp-input": "^1.8.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

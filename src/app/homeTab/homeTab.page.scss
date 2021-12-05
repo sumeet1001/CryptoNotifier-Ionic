@@ -1,0 +1,23 @@
+.sub-card {
+  margin-bottom: 0px;
+  border-radius: 20px;
+  ion-card-header {
+    padding: 0px;
+  }
+  .update-btn {
+    display: flex;
+    align-items: center;
+    ion-button {
+      margin: 0px;
+      width: 100%;
+      text-transform: none;
+      font-size: 13px;
+      --padding-start: 4px;
+      --padding-end: 4px;
+      --border-radius: 13px;
+      font-weight: 700;
+      --padding-top: 2px;
+      --padding-bottom: 2px;
+    }
+  }
+}
