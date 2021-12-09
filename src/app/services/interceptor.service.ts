@@ -25,6 +25,7 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(request)
     .pipe(
       catchError((error: HttpErrorResponse) => {
+        this.globalService.dismissLoader();
         this.errorHandler(error);
         return throwError(error);
       })
@@ -38,9 +39,11 @@ export class InterceptorService implements HttpInterceptor {
       buttons: [{
           text: 'Okay'
         }
-      ]
+      ],
     });
-
-    await alert.present();
+    const presentedAlert = await alert.present();
+    if (this.globalService.loadingObj) {
+      this.globalService.dismissLoader();
+    }
   }
 }

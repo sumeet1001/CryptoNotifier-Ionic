@@ -8,9 +8,10 @@ import { App } from '@capacitor/app';
 })
 export class GlobalService {
   public currentUserSubject: BehaviorSubject<any>;
-  subs: BehaviorSubject<any>;
+  public subs: BehaviorSubject<any>;
   lastBack;
   buttonSub;
+  loadingObj = null;
   constructor(
     private loadingController: LoadingController,
     private toastController: ToastController,
@@ -56,23 +57,22 @@ export class GlobalService {
   //   this.setUser(user);
   // }
   async presentLoadingWithOptions(options?) {
-    const loading = await this.loadingController.create({
+    this.loadingObj = await this.loadingController.create({
       spinner: options.type || 'crescent',
       message: options.msg || 'Loading',
       translucent: false,
       cssClass: 'custom-class custom-loading',
       backdropDismiss: false
     });
-    await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
+    await this.loadingObj.present();
   }
   async dismissLoader() {
     try {
-      const loader = this.loadingController.getTop();
-      console.log('loader', loader);
-      if (loader) {
+      // loader = this.loadingController.getTop();
+      // console.log('loader', loader);
+      if (this.loadingObj) {
         this.loadingController.dismiss();
+        this.loadingObj = null;
       }
     } catch (error) {
       console.log(error);

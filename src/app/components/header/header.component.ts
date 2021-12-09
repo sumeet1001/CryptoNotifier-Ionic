@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +11,12 @@ export class HeaderComponent implements OnInit {
   @Input() page = '';
   constructor(
     private globalService: GlobalService,
-    private router: Router
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {}
   logout() {
     this.globalService.clearStorage();
-    this.router.navigateByUrl('login');
+    this.navCtrl.navigateRoot('/login', { animated: true, animationDirection: 'forward' });
   }
 }

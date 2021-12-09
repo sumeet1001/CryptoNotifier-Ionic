@@ -56,7 +56,6 @@ export class LoginPage implements OnInit {
       console.log(res);
     }, err => {
       console.log(err);
-      this.globalService.dismissLoader();
     });
   }
   goto() {

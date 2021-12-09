@@ -1,8 +1,9 @@
-import { Platform } from '@ionic/angular';
+import { ApiService } from './../services/api.service';
+import { Platform, AlertController } from '@ionic/angular';
 import { HomeService } from './../services/home.service';
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PushNotifications, Token } from '@capacitor/push-notifications';
 
@@ -19,9 +20,11 @@ export class HomeTabPage implements OnInit {
   loading = true;
   constructor(
     private globalService: GlobalService,
-    private router: Router,
     private homeService: HomeService,
-    private platform: Platform
+    private platform: Platform,
+    private apiService: ApiService,
+    private alertController: AlertController,
+    private router: Router
   ) {
     this.user = globalService.currentUserValue;
   }
@@ -36,6 +39,7 @@ export class HomeTabPage implements OnInit {
   ngOnInit() {
     // console.log(this.testGroup)
     // change this for website
+    this.checkVerifiedUser();
     this.pushNotifications();
   }
 
@@ -51,7 +55,7 @@ export class HomeTabPage implements OnInit {
       });
       PushNotifications.addListener('registration',
         (token: Token) => {
-          console.log('Push registration success, token: ' + token.value);
+          // console.log('Push registration success, token: ' + token.value);
           this.fcmToken = token.value;
         }
       );
@@ -59,17 +63,19 @@ export class HomeTabPage implements OnInit {
   }
 
   getSubsList() {
-    if (this.globalService.getSubs && this.globalService.getSubs.subs && Object.keys(this.globalService.getSubs.subs).length) {
-      this.subs = this.globalService.getSubs.subs;
+    if (this.globalService.getSubs && this.globalService.getSubs && Object.keys(this.globalService.getSubs).length > 0) {
+      this.subs = this.globalService.getSubs;
       this.loading = false;
     } else {
       this.homeService.getSubsList().subscribe( (res: any) => {
-        this.globalService.setSubs(res.subs || {});
-        for (const item of Object.keys(res.subs)) {
-          res.subs[item].expanded = false;
+        if (res && res.subs) {
+          this.globalService.setSubs(res.subs || {});
+          for (const item of Object.keys(res.subs)) {
+            res.subs[item].expanded = false;
+          }
+          console.log(res);
+          this.subs = res.subs;
         }
-        console.log(res);
-        this.subs = res.subs;
         this.loading = false;
       }, err => {
         this.loading = false;
@@ -77,28 +83,84 @@ export class HomeTabPage implements OnInit {
       });
     }
   }
-  expand(item) {
-    item.expanded = !item.expanded;
-    console.log(item);
+  expand(key) {
+    this.subs[key].expanded = !this.subs[key].expanded;
   }
-  // updateObj(ev, id, field) {
-  //   this.cryptoList.forEach(item => {
-  //     // eslint-disable-next-line no-underscore-dangle
-  //     if (item._id === id) {
-  //       if (ev.detail.value === 'on') {
-  //         item[field] = ev.detail.checked;
-  //       } else {
-  //         item[field] = parseFloat(ev.detail.value);
-  //       }
-  //     }
-  //  });
-  // }
+  updateObj(ev, key, field) {
+    if (ev.detail.value === 'on') {
+      this.subs[key][field] = ev.detail.checked;
+      this.expand(key);
+    } else {
+      this.subs[key][field] = parseFloat(ev.detail.value || 0);
+    }
+  }
 
-  // saveDetails() {
-  //   const body = {
-  //     firebaseToken: this.fcmToken,
-  //     subs: this.cryptoList
-  //   };
-  //   this.homeService.saveDetails(body);
-  // }
+  saveDetails(remove?, key?) {
+    const body = {
+      subs: {...this.subs}
+    };
+    if (remove) {
+      delete body.subs[key];
+    }
+    this.apiService.updateSubs(body).subscribe(res => {
+      if (remove) {
+        delete(this.subs[key]);
+      }
+      this.globalService.showToast({msg: 'updated'});
+      console.log(this.subs);
+    });
+  }
+  checkVerifiedUser() {
+    if (!this.user.verified) {
+      const options = {
+        cssClass: 'my-custom-class',
+        header: 'Verification pending ',
+        message: 'Mobile number not verified',
+        buttons: [
+          {
+            text: 'Maybe Later',
+            role: 'cancel'
+          },
+          {
+            text: 'Verify Now',
+            role: 'verify'
+          },
+        ],
+      };
+      this.alertConfirm(options);
+    }
+  }
+  async alertConfirm(options) {
+    const alert = await this.alertController.create(options);
+
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    switch (role) {
+      case 'verify':
+        this.router.navigate(['otp', {mobile: this.user.phoneNumber}]);
+        break;
+      case 'yes':
+        this.saveDetails(true, options.key);
+        break;
+    }
+  }
+  removeSub(key: string) {
+    const options = {
+      cssClass: 'my-custom-class',
+      header: `Remove ${key.toUpperCase()}`,
+      message: `Are you sure you want to remove ${key}`,
+      buttons: [
+        {
+          text: 'Go back',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          role: 'yes'
+        },
+      ],
+      key
+    };
+    this.alertConfirm(options);
+  }
 }

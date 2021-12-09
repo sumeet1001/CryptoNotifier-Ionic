@@ -28,7 +28,7 @@ export class OtpPage implements OnInit {
   }
   ionViewWillEnter(){
    this.mobile = this.activatedroute.snapshot.paramMap.get('mobile');
-   this.userId = this.activatedroute.snapshot.paramMap.get('user');
+  //  this.userId = this.activatedroute.snapshot.paramMap.get('user');
    if (!this.mobile || this.mobile && this.mobile.length === 0) {
      this.globalService.showToast({msg: 'something went!!'});
      this.router.navigateByUrl('login');
@@ -77,7 +77,7 @@ export class OtpPage implements OnInit {
 
   markUserVerified() {
     const body = {
-      userId: this.userId
+      phoneNumber: this.mobile
     };
     this.apiService.updateUserVerified(body).subscribe( res => {
       this.router.navigateByUrl('login');

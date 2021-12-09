@@ -20,7 +20,7 @@ export class SignupPage implements OnInit {
   fcmToken: string;
   signupInputs = [
     {
-      label: 'Name',
+      label: 'Full Name',
       type: 'string',
       formControl: 'name'
     },
