@@ -1,31 +1,37 @@
 .sub-card {
   margin-bottom: 0px;
   border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   ion-card-header {
     padding: 0px;
+  }
+  p {
+    letter-spacing: 0.5px;
   }
   ion-card-content {
     ion-item {
       ion-label {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
       }
     }
   }
+  ion-toggle {
+    width: 62px;
+  }
+  // .radio-handle-shadow-inactive {
+  //   --handle-box-shadow: 0 2px 4px 1px rgba(128, 0, 0, 0.3), 0 2px 2px 0 rgba(128, 0, 0, 0.14), 0 1px 5px 0 rgba(128, 0, 0, 0.12);
+  // }
+  // .radio-handle-shadow-active {
+  //   --handle-box-shadow: 0 2px 4px 1px rgba(0, 128, 0, 0.3), 0 2px 2px 0 rgba(0, 128, 0, 0.14), 0 1px 5px 0 rgba(0, 128, 0, 0.12);
+
+  // }
   .update-btn {
-    display: flex;
-    align-items: center;
-    ion-button {
-      margin: 0px;
-      width: 100%;
-      text-transform: none;
-      font-size: 13px;
-      --padding-start: 4px;
-      --padding-end: 4px;
-      --border-radius: 13px;
-      font-weight: 700;
-      --padding-top: 2px;
-      --padding-bottom: 2px;
-    }
+    margin: 0px;
+    text-transform: none;
+    font-size: 13px;
+    --border-radius: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
   }
 }

@@ -4,7 +4,6 @@
 	"webDir": "www",
 	"bundledWebRuntime": false,
 	"server": {
-		"cleartext": true,
-		"url": "http://192.168.29.110:8100"
+		"cleartext": true
 	}
 }

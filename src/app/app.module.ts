@@ -8,9 +8,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor.service';
+import { CurrencySignPipe } from './pipes/currency-sign.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CurrencySignPipe],
   entryComponents: [],
   imports: [
     BrowserModule,

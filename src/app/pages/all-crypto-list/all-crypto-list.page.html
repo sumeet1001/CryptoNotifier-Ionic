@@ -23,7 +23,7 @@
   <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
   <ion-list *ngIf="!loading">
     <ng-container *ngFor="let crypto of cryptos">
-      <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list">
+      <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list" lines="full">
         <ion-icon name="logo-bitcoin" slot="start" class="crypto-logo"></ion-icon>
         <ion-label style="min-width: 55%;">
           <h3> <b>{{crypto.crypto | uppercase}}</b>

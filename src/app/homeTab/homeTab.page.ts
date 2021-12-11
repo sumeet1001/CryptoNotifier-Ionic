@@ -144,7 +144,8 @@ export class HomeTabPage implements OnInit {
         break;
     }
   }
-  removeSub(key: string) {
+  removeSub(ev, key: string) {
+    ev.stopPropagation();
     const options = {
       cssClass: 'my-custom-class',
       header: `Remove ${key.toUpperCase()}`,

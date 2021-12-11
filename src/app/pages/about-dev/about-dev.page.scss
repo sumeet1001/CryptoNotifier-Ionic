@@ -1,0 +1,21 @@
+.bkg {
+  background: url(../../../assets/images/bgi.jpg);
+  min-height: 200px;
+  background-size: cover;
+  display: flex;
+  ion-avatar {
+    width: 166px;
+    height: 166px;
+    margin: auto;
+  }
+  img {
+    border: 3px solid var(--ion-color-light);
+    transform: rotate(13deg);
+  }
+}
+ion-card-header {
+  ion-card-subtitle {
+    font-size: 13px;
+    margin-top: 2px;
+  }
+}

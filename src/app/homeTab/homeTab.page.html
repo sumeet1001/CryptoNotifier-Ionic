@@ -8,34 +8,39 @@
             <ion-card-header>
               <ion-item lines="none">
                   <ion-toggle [checked]="item.value['active']" (ionChange)="updateObj($event, item.key, 'active')"></ion-toggle>
-                  {{item.value['crypto'] | uppercase}}
-                  <ion-button *ngIf="item.value['expanded']" (click)="removeSub(item.key)" fill="clear" slot="end" color="danger">
-                    <ion-icon name="close-circle-outline"></ion-icon>
+                  <p class="w-100" (click)="expand(item.key)">
+                    {{item.value['crypto'] | uppercase}}
+                  </p>
+                  <ion-button (click)="removeSub($event,item.key)" fill="clear" color="danger" class="ion-no-margin">
+                    <ion-icon name="close-outline"></ion-icon>
                   </ion-button>
-                  <ion-button (click)="expand(item.key)" fill="clear" class="ion-no-margin" slot="end" color="dark">
+                  <ion-button  class="update-btn" (click)="saveDetails()" fill="solid" color="success">
+                    Save
+                  </ion-button>
+                  <!-- <ion-button (click)="expand(item.key)" fill="clear" class="ion-no-margin" slot="end" color="dark">
                     <ion-icon [name]="item.value['expanded']? 'chevron-down': 'chevron-forward'"></ion-icon>
-                  </ion-button>
+                  </ion-button> -->
               </ion-item>
             </ion-card-header>
-            <ion-card-content *ngIf="item.value['expanded']" class="ion-no-padding">
+            <ion-card-content *ngIf="item.value['expanded']">
               <ion-row>
-                <ion-col size="5">
+                <ion-col size="6">
                   <ion-item>
-                    <ion-label position="stacked">Less than</ion-label>
+                    <ion-label position="floating">Less than</ion-label>
                     <ion-input type="number" [value]="item.value['min']" (ionChange)="updateObj($event, item.key, 'min')"></ion-input>
                   </ion-item>
                 </ion-col>
-                <ion-col size="5">
+                <ion-col size="6">
                   <ion-item>
-                    <ion-label position="stacked">Greater than</ion-label>
+                    <ion-label position="floating">Greater than</ion-label>
                     <ion-input type="number" [value]="item.value['max']" (ionChange)="updateObj($event, item.key, 'max')"></ion-input>
                   </ion-item>
                 </ion-col>
-                <ion-col size="2" class="update-btn">
+                <!-- <ion-col size="2">
                   <ion-button (click)="saveDetails()" fill="outline" color="success">
                     Done
                   </ion-button>
-                </ion-col>
+                </ion-col> -->
               </ion-row>
             </ion-card-content>
             <!-- <ion-row>

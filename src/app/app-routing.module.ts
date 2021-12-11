@@ -24,6 +24,14 @@ const routes: Routes = [
   {
     path: 'otp',
     loadChildren: () => import('./pages/otp/otp.module').then( m => m.OtpPageModule)
+  },
+  {
+    path: 'about-dev',
+    loadChildren: () => import('./pages/about-dev/about-dev.module').then( m => m.AboutDevPageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   }
 ];
 @NgModule({
