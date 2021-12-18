@@ -79,15 +79,16 @@ export class AllCryptoListPage implements OnInit {
       crypto: item.crypto,
       min: 0,
       max: 0,
-      active: false
+      active: false,
+      cryptoName: item.cryptoName
     };
     const body = {
       subs: {...this.currentSubs}
     };
-    body.subs[item.crypto] = currentCrypto;
+    body.subs[item.cryptoName] = currentCrypto;
     this.apiService.updateSubs(body).subscribe( res => {
       // this.globalService.dismissLoader();
-      this.globalService.setSubs(body);
+      this.globalService.setSubs(body.subs);
       this.currentSubs = body.subs;
       this.globalService.showToast({msg: 'Added successfully'});
     }, err => {
@@ -95,5 +96,10 @@ export class AllCryptoListPage implements OnInit {
     // this.globalService.showToast({msg: 'Something went wrong'});
       console.log(err);
     });
+  }
+  loadData(ev) {
+    console.log(ev);
+    ev.target.complete();
+    // ev.target.disabled = true;
   }
 }

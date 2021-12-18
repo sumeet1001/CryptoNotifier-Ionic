@@ -4,4 +4,5 @@ export interface CryptoList {
   last: string;
   quoteMarket: string;
   volume: string;
+  cryptoName: string;
 };
