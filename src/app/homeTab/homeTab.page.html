@@ -9,7 +9,10 @@
               <ion-item lines="none">
                   <ion-toggle [checked]="item.value['active']" (ionChange)="updateObj($event, item.key, 'active')"></ion-toggle>
                   <p class="w-100" (click)="expand(item.key)">
-                    {{item.value['crypto'] | uppercase}}
+                    {{item.value['crypto']}}
+                    <ion-chip class="type-chip" color="success">
+                      <ion-label>{{item.value['quoteMarket'] | uppercase}}</ion-label>
+                    </ion-chip>
                   </p>
                   <ion-button (click)="removeSub($event,item.key)" fill="clear" color="danger" class="ion-no-margin">
                     <ion-icon name="close-outline"></ion-icon>

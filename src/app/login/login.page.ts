@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
       this.loginForm.reset();
       this.globalService.dismissLoader();
       this.router.navigateByUrl('tabs/home');
-      console.log(res);
+      // console.log(res);
     }, err => {
       console.log(err);
     });

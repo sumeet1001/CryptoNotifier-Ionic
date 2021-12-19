@@ -23,7 +23,7 @@
             <ng-container *ngFor="let item of subs | keyvalue">
 
               <ion-chip *ngIf="item.value['active']" color="success">
-                <ion-icon name="happy-outline" color="primary"></ion-icon>
+                <ion-icon name="happy-outline" color="success"></ion-icon>
                 <ion-label>{{item.value['crypto']}}</ion-label>
               </ion-chip>
             </ng-container>

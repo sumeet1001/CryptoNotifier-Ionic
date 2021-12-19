@@ -8,10 +8,10 @@ import { CryptoList } from 'src/app/interfaces/crypto-list.interface';
   styleUrls: ['./all-crypto-list.page.scss'],
 })
 export class AllCryptoListPage implements OnInit {
-  cryptos: [CryptoList];
   quotes;
+  allCryptos = {};
   filteredData: [CryptoList];
-  currentSection;
+  currentSection = 'inr';
   loading: boolean;
   currentSubs;
   constructor(
@@ -26,31 +26,35 @@ export class AllCryptoListPage implements OnInit {
   }
   ionViewWillEnter(){
     this.currentSubs = this.globalService.getSubs;
-    console.log(this.currentSubs);
+    // console.log(this.currentSubs);
     this.getCryptoList();
   }
   getCryptoList() {
+    this.loading = true;
     this.apiService.getCryptoList().subscribe((res: any) => {
-      this.cryptos = res.markets;
       this.getUniqueQuotes(res.markets);
     }, err => {
       console.log(err);
     });
   }
 
-  getUniqueQuotes(arr: []) {
+  getUniqueQuotes(arr) {
     const allQuote = [];
     arr.forEach((item: CryptoList) => {
       allQuote.push(item.quoteMarket);
     });
     this.quotes = [... new Set(allQuote)];
-    this.currentSection = this.quotes[1];
+    this.quotes.forEach(element => {
+      this.allCryptos[element] = arr.filter(crypto => element === crypto.quoteMarket);
+    });
+    // console.log(this.allCryptos);
+    // this.currentSection = this.quotes[1];
     this.loading = false;
     // console.log(this.quotes)
   }
 
   segmentChanged(ev) {
-    console.log(this.currentSection);
+    // console.log(this.currentSection);
     this.currentSection = ev.target.value;
     // this.cryptos ;
   }
@@ -68,38 +72,5 @@ export class AllCryptoListPage implements OnInit {
         break;
     }
     return filter;
-  }
-  addSubscription(item: CryptoList) {
-    // this.globalService.presentLoadingWithOptions({msg: 'Adding Subscription'});
-    if (this.currentSubs[item.crypto]) {
-      this.globalService.showToast({msg: 'Already subscribed'});
-      return;
-    }
-    const currentCrypto = {
-      crypto: item.crypto,
-      min: 0,
-      max: 0,
-      active: false,
-      cryptoName: item.cryptoName
-    };
-    const body = {
-      subs: {...this.currentSubs}
-    };
-    body.subs[item.cryptoName] = currentCrypto;
-    this.apiService.updateSubs(body).subscribe( res => {
-      // this.globalService.dismissLoader();
-      this.globalService.setSubs(body.subs);
-      this.currentSubs = body.subs;
-      this.globalService.showToast({msg: 'Added successfully'});
-    }, err => {
-      // this.globalService.dismissLoader();
-    // this.globalService.showToast({msg: 'Something went wrong'});
-      console.log(err);
-    });
-  }
-  loadData(ev) {
-    console.log(ev);
-    ev.target.complete();
-    // ev.target.disabled = true;
   }
 }

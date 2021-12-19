@@ -7,6 +7,7 @@
   }
   p {
     letter-spacing: 0.5px;
+    text-transform: capitalize;
   }
   ion-card-content {
     ion-item {
@@ -34,4 +35,13 @@
     font-weight: 700;
     letter-spacing: 1.2px;
   }
+}
+
+.type-chip {
+  font-size: 10px;
+  padding: 0px 8px;
+  margin: 0;
+  height: 17px;
+  position: relative;
+  bottom: 6px;
 }

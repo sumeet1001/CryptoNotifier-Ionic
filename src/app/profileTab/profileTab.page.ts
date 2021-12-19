@@ -38,8 +38,10 @@ export class ProfileTabPage implements OnInit{
   }
   updateName() {
     const body = {
-      name: this.name
+      name: this.name,
+      firebaseToken: this.user.firebaseToken
     };
+    console.log(body);
     this.homeService.saveDetails(body);
   }
   goto(url?) {

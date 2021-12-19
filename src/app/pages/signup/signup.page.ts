@@ -56,7 +56,7 @@ export class SignupPage implements OnInit {
     });
     PushNotifications.addListener('registration',
       (token: Token) => {
-        console.log('Push registration success, token: ' + token.value);
+        // console.log('Push registration success, token: ' + token.value);
         this.fcmToken = token.value;
       }
     );

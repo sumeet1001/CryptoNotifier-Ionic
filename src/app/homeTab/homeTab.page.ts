@@ -29,7 +29,7 @@ export class HomeTabPage implements OnInit {
     this.user = globalService.currentUserValue;
   }
   ionViewWillEnter(){
-    console.log(this.globalService.getSubs);
+    // console.log(this.globalService.getSubs);
     this.globalService.backButtonSub();
     this.getSubsList();
   }
@@ -57,11 +57,21 @@ export class HomeTabPage implements OnInit {
         (token: Token) => {
           // console.log('Push registration success, token: ' + token.value);
           this.fcmToken = token.value;
+          this.updateFirebaseToken();
         }
       );
     }
   }
-
+  updateFirebaseToken() {
+    // console.log(this.user);
+    this.homeService.updateUser({name: this.user.name, firebaseToken: this.fcmToken}).subscribe(res => {
+      this.user.firebaseToken = this.fcmToken;
+      this.globalService.setUser(this.user);
+      // console.log(this.user);
+    }, err => {
+      this.globalService.showToast({msg: 'unable to register for notification please try again or contact support'});
+    });
+  }
   getSubsList() {
     if (this.globalService.getSubs && this.globalService.getSubs && Object.keys(this.globalService.getSubs).length > 0) {
       this.subs = this.globalService.getSubs;
@@ -73,7 +83,7 @@ export class HomeTabPage implements OnInit {
           for (const item of Object.keys(res.subs)) {
             res.subs[item].expanded = false;
           }
-          console.log(res);
+          // console.log(res);
           this.subs = res.subs;
         }
         this.loading = false;
@@ -107,7 +117,7 @@ export class HomeTabPage implements OnInit {
         delete(this.subs[key]);
       }
       this.globalService.showToast({msg: 'updated'});
-      console.log(this.subs);
+      // console.log(this.subs);
     });
   }
   checkVerifiedUser() {

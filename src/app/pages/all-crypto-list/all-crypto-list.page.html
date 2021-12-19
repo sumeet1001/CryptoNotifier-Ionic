@@ -1,6 +1,6 @@
 <app-header [page]="'Cryptos'">
   <ion-toolbar>
-    <ion-segment scrollable [value]="quotes && quotes[1]"  (ionChange)="segmentChanged($event)">
+    <ion-segment scrollable [value]="currentSection"  (ionChange)="segmentChanged($event)">
       <ion-segment-button *ngFor="let item of quotes" [value]="item">
         <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
         <ion-label *ngIf="!loading">{{item | uppercase}}</ion-label>
@@ -22,33 +22,8 @@
 <ion-content>
   <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
   <ion-list *ngIf="!loading">
-    <ng-container *ngFor="let crypto of cryptos">
-      <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list" lines="full">
-        <ion-icon name="logo-bitcoin" slot="start" class="crypto-logo"></ion-icon>
-        <ion-label style="min-width: 55%;">
-          <h3> <b>{{crypto.crypto | uppercase}}</b>
-            <ion-chip class="" color="success">
-              <ion-label>{{crypto.quoteMarket | uppercase}}</ion-label>
-            </ion-chip>
-            </h3>
-          <h3>Volume: {{crypto.volume}}</h3>
-        </ion-label>
-        <ion-label>
-          <h3 class="ion-text-end">
-            <b>{{crypto.last | number : '1.2-7'}}</b>
-          </h3>
-        </ion-label>
-        <ion-button fill="clear" class="alert-btn" (click)="addSubscription(crypto)">
-          <ion-icon name="notifications-outline"></ion-icon>
-          <ion-badge color="success">+</ion-badge>
-        </ion-button>
-      </ion-item>
+    <ng-container *ngFor="let item of quotes">
+      <app-crypto-list-info [cryptos]="allCryptos[item]" [currentSection]="currentSection" [currentSubs]="currentSubs" [type]="item" ></app-crypto-list-info>
     </ng-container>
   </ion-list>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 </ion-content>

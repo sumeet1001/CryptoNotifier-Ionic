@@ -42,7 +42,7 @@ export class OtpPage implements OnInit {
   sendOtp() {
     this.globalService.showToast({msg: 'Sending Otp'});
     this.firebaseAuthentication.verifyPhoneNumber(`+91 ${this.mobile}`, 30).then( res => {
-      console.log(res);
+      // console.log(res);
       this.verificationId = res;
       this.globalService.showToast({msg: 'Otp sent'});
     }).catch(err => {
@@ -81,7 +81,7 @@ export class OtpPage implements OnInit {
     };
     this.apiService.updateUserVerified(body).subscribe( res => {
       this.router.navigateByUrl('login');
-      console.log(res);
+      // console.log(res);
     }, err => {
       console.log(err);
     });
