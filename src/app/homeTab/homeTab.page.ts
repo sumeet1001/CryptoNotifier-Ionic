@@ -106,6 +106,7 @@ export class HomeTabPage implements OnInit {
   }
 
   saveDetails(remove?, key?) {
+    this.globalService.presentLoadingWithOptions({msg: 'Saving'});
     const body = {
       subs: {...this.subs}
     };
@@ -116,8 +117,11 @@ export class HomeTabPage implements OnInit {
       if (remove) {
         delete(this.subs[key]);
       }
-      this.globalService.showToast({msg: 'updated'});
+      this.globalService.dismissLoader();
+      this.globalService.showToast({msg: 'updated', position: 'top'});
       // console.log(this.subs);
+    }, err => {
+      this.globalService.dismissLoader();
     });
   }
   checkVerifiedUser() {
@@ -147,7 +151,7 @@ export class HomeTabPage implements OnInit {
     const { role } = await alert.onDidDismiss();
     switch (role) {
       case 'verify':
-        this.router.navigate(['otp', {mobile: this.user.phoneNumber}]);
+        this.router.navigate(['otp', {mobile: this.user.phoneNumber, from: 'dashboard'}]);
         break;
       case 'yes':
         this.saveDetails(true, options.key);

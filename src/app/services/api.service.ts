@@ -20,4 +20,7 @@ export class ApiService {
   updateUserVerified(body) {
     return this.http.put(`${environment.baseUrl}/update-verified`, body);
   }
+  updateUserPassword(body) {
+    return this.http.put(`${environment.baseUrl}/reset-password`, body);
+  }
 }

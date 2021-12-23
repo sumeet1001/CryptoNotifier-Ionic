@@ -1,6 +1,6 @@
 {
 	"appId": "com.kinu.cryptoNotifier",
-	"appName": "CN",
+	"appName": "Crypto Notifier",
 	"webDir": "www",
 	"bundledWebRuntime": false,
   "server": {

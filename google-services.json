@@ -14,11 +14,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "594944376611-v5g62jkdeuf9ujhk9fhocsssigdd17bi.apps.googleusercontent.com",
+          "client_id": "594944376611-dl7snq85klm1l6eealt4c88luihi63tt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kinu.cryptoNotifier",
-            "certificate_hash": "34915c145019ff3b46716d116cbead38ca771a8d"
+            "certificate_hash": "6da86b8b635a85c42a8b7953f7fa2db6545bd8a8"
+          }
+        },
+        {
+          "client_id": "594944376611-r9a1qlfvp1j0eeavaiveqsplrduk2oam.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinu.cryptoNotifier",
+            "certificate_hash": "53b4d3c1f636bbe7ee1d7dc5e0d8df50c9111b77"
           }
         },
         {

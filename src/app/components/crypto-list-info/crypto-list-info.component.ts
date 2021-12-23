@@ -36,8 +36,8 @@ export class CryptoListInfoComponent implements OnInit {
     // console.log(this.allCryptos);
   }
   addSubscription(item: CryptoList) {
-    // this.globalService.presentLoadingWithOptions({msg: 'Adding Subscription'});
-    if (this.currentSubs[item.crypto]) {
+    this.globalService.presentLoadingWithOptions({msg: 'Adding Subscription'});
+    if (this.currentSubs[item.cryptoName]) {
       this.globalService.showToast({msg: 'Already subscribed'});
       return;
     }
@@ -54,12 +54,12 @@ export class CryptoListInfoComponent implements OnInit {
     };
     body.subs[item.cryptoName] = currentCrypto;
     this.apiService.updateSubs(body).subscribe( res => {
-      // this.globalService.dismissLoader();
+      this.globalService.dismissLoader();
       this.globalService.setSubs(body.subs);
       this.currentSubs = body.subs;
-      this.globalService.showToast({msg: 'Added successfully'});
+      this.globalService.showToast({msg: 'Added successfully', position: 'top'});
     }, err => {
-      // this.globalService.dismissLoader();
+      this.globalService.dismissLoader();
     // this.globalService.showToast({msg: 'Something went wrong'});
       console.log(err);
     });
@@ -69,6 +69,13 @@ export class CryptoListInfoComponent implements OnInit {
     this.setPagination();
     if (this.allCryptos.length === 0) {
       ev.target.disabled = true;
+    }
+  }
+  hidden(crypto) {
+    if(crypto && crypto.quoteMarket && this.currentSection && this.currentSection.length > 0) {
+      return crypto.quoteMarket !== this.currentSection;
+    }else {
+      return false;
     }
   }
 }

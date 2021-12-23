@@ -1,5 +1,5 @@
 <ng-container *ngFor="let crypto of paginatedCrypto">
-  <ion-item class="crypto-list" lines="full" [hidden]="crypto.quoteMarket !== currentSection" >
+  <ion-item class="crypto-list" lines="full" [hidden]="hidden(crypto)" >
     <!-- <ion-item [hidden]="crypto.quoteMarket !== currentSection" class="crypto-list" lines="full"> -->
     <ion-icon name="logo-bitcoin" slot="start" class="crypto-logo"></ion-icon>
     <ion-label style="min-width: 55%;">
@@ -21,10 +21,13 @@
     </ion-button>
   </ion-item>
 </ng-container>
-<ion-infinite-scroll *ngIf="currentSection === type" threshold="30px" (ionInfinite)="loadData($event)">
-  <ion-infinite-scroll-content
-    loadingSpinner="bubbles"
-    loadingText="Loading more data...">
-  </ion-infinite-scroll-content>
-</ion-infinite-scroll>
+<ng-container *ngIf="currentSection && type">
+  <ion-infinite-scroll *ngIf="currentSection === type" threshold="30px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ng-container>
+
 

@@ -1,6 +1,7 @@
-<app-header [page]="'Cryptos'">
+<app-header>
   <ion-toolbar>
-    <ion-segment scrollable [value]="currentSection"  (ionChange)="segmentChanged($event)">
+    <ion-searchbar showCancelButton="focus" (ionChange)="search($event)"></ion-searchbar>
+    <ion-segment *ngIf="!searching" swipeGesture="true" [value]="currentSection"  (ionChange)="segmentChanged($event)">
       <ion-segment-button *ngFor="let item of quotes" [value]="item">
         <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
         <ion-label *ngIf="!loading">{{item | uppercase}}</ion-label>
@@ -8,22 +9,31 @@
     </ion-segment>
   </ion-toolbar>
 </app-header>
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-segment scrollable [value]="quotes && quotes[0]"  (ionChange)="segmentChanged($event)">
-      <ion-segment-button *ngFor="let item of quotes" [value]="item">
-        <app-loading [rows]="1" [lines]="1" *ngIf="loading"></app-loading>
-        <ion-label *ngIf="!loading">{{item | uppercase}}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-</ion-header> -->
 
 <ion-content>
-  <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
-  <ion-list *ngIf="!loading">
-    <ng-container *ngFor="let item of quotes">
-      <app-crypto-list-info [cryptos]="allCryptos[item]" [currentSection]="currentSection" [currentSubs]="currentSubs" [type]="item" ></app-crypto-list-info>
-    </ng-container>
-  </ion-list>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)"  pullMin="30">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Loading..." refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-row>
+    <ion-col size="12">
+      <ion-text color="medium" *ngIf="showPullInfo">
+        <p  class="ion-text-center" >
+          Pull to refresh
+          <ion-icon slot="start" name="arrow-down-outline"></ion-icon>
+        </p>
+      </ion-text>
+      <app-loading *ngIf="loading" [lines]='3' [rows]='4'></app-loading>
+      <ion-list *ngIf="!loading && !searching" >
+        <ng-container *ngFor="let item of quotes">
+          <app-crypto-list-info [cryptos]="allCryptos[item]" [currentSection]="currentSection" [currentSubs]="currentSubs" [type]="item" ></app-crypto-list-info>
+        </ng-container>
+      </ion-list>
+      <ion-list *ngIf="searching">
+        <ion-card>
+          <app-crypto-list-info [cryptos]="searchResult" [currentSubs]="currentSubs"></app-crypto-list-info>
+        </ion-card>
+      </ion-list>
+    </ion-col>
+  </ion-row>
 </ion-content>

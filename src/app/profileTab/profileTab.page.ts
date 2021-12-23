@@ -1,3 +1,4 @@
+import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { HomeService } from './../services/home.service';
 import { GlobalService } from 'src/app/services/global.service';
@@ -16,7 +17,8 @@ export class ProfileTabPage implements OnInit{
   constructor(
     private globalService: GlobalService,
     private homeService: HomeService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     this.about = [
       {
@@ -47,6 +49,33 @@ export class ProfileTabPage implements OnInit{
   goto(url?) {
     if (url) {
       this.router.navigate([url]);
+    }
+  }
+  async resetPassword() {
+    const options = {
+      cssClass: 'my-custom-class',
+      header: 'Reset Password!!!',
+      message: 'Logout and reset the password?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Logout',
+          role: 'logout'
+        },
+      ],
+    };
+    const alert = await this.alertController.create(options);
+
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    switch (role) {
+      case 'logout':
+        this.globalService.clearStorage();
+        this.router.navigate(['forgot-password', {mobile: this.user.phoneNumber}]);
+        break;
     }
   }
 }

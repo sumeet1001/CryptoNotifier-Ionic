@@ -16,6 +16,7 @@ export class OtpPage implements OnInit {
   otp = '';
   userId;
   btnText = 'Verify';
+  from: string;
   constructor(
     private activatedroute: ActivatedRoute,
     private router: Router,
@@ -28,6 +29,7 @@ export class OtpPage implements OnInit {
   }
   ionViewWillEnter(){
    this.mobile = this.activatedroute.snapshot.paramMap.get('mobile');
+   this.from = this.activatedroute.snapshot.paramMap.get('from') || null;
   //  this.userId = this.activatedroute.snapshot.paramMap.get('user');
    if (!this.mobile || this.mobile && this.mobile.length === 0) {
      this.globalService.showToast({msg: 'something went!!'});
@@ -57,7 +59,11 @@ export class OtpPage implements OnInit {
     if (this.otp && this.otp.length === 6) {
       this.firebaseAuthentication.signInWithVerificationId(this.verificationId, this.otp).then(res => {
         this.btnText = 'Verified';
-        this.globalService.showToast({msg: 'Number Verified'});
+        if (this.from && this.from === 'reset') {
+
+        } else {
+          this.globalService.showToast({msg: 'Number Verified'});
+        }
         this.markUserVerified();
       }).catch( err => {
         this.btnText = 'Verify';
@@ -76,15 +82,28 @@ export class OtpPage implements OnInit {
   }
 
   markUserVerified() {
-    const body = {
-      phoneNumber: this.mobile
-    };
-    this.apiService.updateUserVerified(body).subscribe( res => {
-      this.router.navigateByUrl('login');
-      // console.log(res);
-    }, err => {
-      console.log(err);
-    });
+    if (this.from && this.from === 'reset') {
+        const config = ['forgot-password', {mobile: this.mobile, verified: 1}];
+        this.router.navigate(config);
+    } else {
+      const body = {
+        phoneNumber: this.mobile
+      };
+      this.apiService.updateUserVerified(body).subscribe( res => {
+        let config = [];
+        switch (this.from) {
+          case 'dashboard':
+            config = ['tabs/home'];
+            break;
+          default:
+            config = ['login'];
+            break;
+        }
+        this.router.navigate(config);
+      }, err => {
+        console.log(err);
+      });
+    }
   }
   gotoLogin() {
     this.router.navigateByUrl('login');

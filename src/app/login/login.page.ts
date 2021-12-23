@@ -58,9 +58,19 @@ export class LoginPage implements OnInit {
       console.log(err);
     });
   }
-  goto() {
-    this.loginForm.reset();
-    this.router.navigateByUrl('signup');
+  goto(to) {
+    switch (to) {
+      case 'about':
+        this.router.navigateByUrl('about-dev');
+        break;
+      case 'reset':
+        this.router.navigateByUrl('forgot-password');
+        break;
+      default:
+        this.loginForm.reset();
+        this.router.navigateByUrl('signup');
+        break;
+    }
   }
   handleClick(item) {
     this.showPass = this.globalService.toggleEye(item, this.showPass);
